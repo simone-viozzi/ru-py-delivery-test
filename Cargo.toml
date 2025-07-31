@@ -11,16 +11,12 @@ readme = "README.md"
 
 [dependencies]
 clap = { version = "4.5.42", features = ["derive"] }
-git2 = { version = "0.20.2", features = ["vendored-libgit2"] }
-
-
-# One logical feature that forces the whole stack —libgit2 **and**
-# openssl-sys— to build from source and link statically.  Nothing
-# else in your crate has to know about OpenSSL.
-[features]
-vendored-openssl = [
-    "git2/vendored-openssl",
-]
+git2 = { version = "0.20", default-features = false, features = [
+    "vendored-libgit2",
+    "vendored-openssl",
+    "https",
+] }
+openssl-sys = { version = "0.9.109", features = ["vendored"] }
 
 
 [package.metadata.maturin]
