@@ -47,7 +47,7 @@ jobs:
         with:
           command: publish               # → pushes straight to PyPI
           target:  ${{ matrix.target }}
-          args: --non-interactive --skip-existing
+          args: --non-interactive --skip-existing --repository-url https://test.pypi.org/legacy/
         env:
           # ---- Trusted Publishing ----
           # Create a PyPI project first, then add this repo as “trusted”.
