@@ -1,6 +1,6 @@
 [package]
 name = "ru-py-delivery-test"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2024"
 description = "A minimal Rust CLI shipped to Python users as a wheel"
 license = "MIT"
