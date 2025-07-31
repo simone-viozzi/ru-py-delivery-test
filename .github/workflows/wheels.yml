@@ -1,0 +1,54 @@
+name: Build & publish wheels
+on:
+  push:
+    tags:
+      - 'v*[0-9]+.[0-9]+.[0-9]+*'   # v0.1.0 / 0.1.0-rc.1 …
+
+permissions:
+  contents: read          # checkout
+  id-token: write         # trusted-publishing to PyPI
+
+jobs:
+  wheels:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # ------- Linux -------
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+          # ------- macOS -------
+          - os: macos-14            # Apple Silicon runner → arm64 native
+            target: aarch64-apple-darwin
+          - os: macos-14            # cross-compile x86_64 from arm64
+            target: x86_64-apple-darwin
+          # ------- Windows ------
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Rust toolchain with the extra target
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      # 2. Python (maturin itself is a Python package)
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3. Build & upload in a single step
+      - uses: PyO3/maturin-action@v1
+        with:
+          command: publish               # → pushes straight to PyPI
+          target:  ${{ matrix.target }}
+          args: --non-interactive --skip-existing
+        env:
+          # ---- Trusted Publishing ----
+          # Create a PyPI project first, then add this repo as “trusted”.
+          MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
