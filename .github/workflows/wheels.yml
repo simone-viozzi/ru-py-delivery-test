@@ -16,9 +16,11 @@ permissions:
   contents: read
 
 jobs:
+  
   linux:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
+      fail-fast: true
       matrix:
         platform:
           - runner: ubuntu-22.04
@@ -55,6 +57,7 @@ jobs:
   musllinux:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
+      fail-fast: true
       matrix:
         platform:
           - runner: ubuntu-22.04
@@ -87,6 +90,7 @@ jobs:
   windows:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
+      fail-fast: true
       matrix:
         platform:
           - runner: windows-latest
@@ -110,6 +114,7 @@ jobs:
   macos:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
+      fail-fast: true
       matrix:
         platform:
           - runner: macos-13
