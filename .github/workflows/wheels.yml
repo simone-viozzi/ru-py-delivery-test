@@ -48,7 +48,7 @@ jobs:
           command: publish               # → pushes straight to PyPI
           target:  ${{ matrix.target }}
           before-script-linux: |
-            yum install -y perl-IPC-Cmd
+            apt install -y perl-IPC-Cmd
           args: --non-interactive --skip-existing --repository-url https://test.pypi.org/legacy/
         env:
           # ---- Trusted Publishing ----
