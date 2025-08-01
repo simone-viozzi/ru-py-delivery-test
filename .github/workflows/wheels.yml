@@ -12,7 +12,7 @@ jobs:
   wheels:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         include:
           # ------- Linux -------
@@ -48,9 +48,7 @@ jobs:
           command: publish               # → pushes straight to PyPI
           target:  ${{ matrix.target }}
           before-script-linux: |
-            apt install -y perl-IPC-Cmd
+            apt-get install -y perl-IPC-Cmd
           args: --non-interactive --skip-existing --repository-url https://test.pypi.org/legacy/
         env:
-          # ---- Trusted Publishing ----
-          # Create a PyPI project first, then add this repo as “trusted”.
           MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
