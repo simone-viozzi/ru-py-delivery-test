@@ -11,12 +11,7 @@ readme = "README.md"
 
 [dependencies]
 clap = { version = "4.5.42", features = ["derive"] }
-git2 = { version = "0.20", default-features = false, features = [
-    "vendored-libgit2",
-    "vendored-openssl",
-    "https",
-] }
-openssl-sys = { version = "0.9.109", features = ["vendored"] }
+git2 = { version = "0.20" }
 
 
 [package.metadata.maturin]
