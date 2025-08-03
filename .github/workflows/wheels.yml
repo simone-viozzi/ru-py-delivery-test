@@ -46,16 +46,16 @@ jobs:
           before-script-linux: |
             # Debian/Ubuntu runners or custom Ubuntu containers
             if command -v apt-get >/dev/null 2>&1; then
-              sudo apt-get -qq update
-              sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+              apt-get -qq update
+              apt-get install -y \
                 perl libssl-dev pkg-config
             # CentOS-based manylinux images (yum) ─ default path for maturin builds
             elif command -v yum >/dev/null 2>&1; then
-              sudo yum install -y \
+              yum install -y \
                 perl-core perl-IPC-Cmd openssl-devel pkgconfig
             # Fedora/RHEL 9 manylinux_2_28 images (dnf)
             elif command -v dnf >/dev/null 2>&1; then
-              sudo dnf install -y \
+              dnf install -y \
                 perl-core perl-IPC-Cmd openssl-devel pkgconfig
             else
               echo "No known package manager found; skipping system-deps install"
@@ -92,16 +92,16 @@ jobs:
           before-script-linux: |
             # Debian/Ubuntu runners or custom Ubuntu containers
             if command -v apt-get >/dev/null 2>&1; then
-              sudo apt-get -qq update
-              sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+              apt-get -qq update
+              apt-get install -y \
                 perl libssl-dev pkg-config
             # CentOS-based manylinux images (yum) ─ default path for maturin builds
             elif command -v yum >/dev/null 2>&1; then
-              sudo yum install -y \
+              yum install -y \
                 perl-core perl-IPC-Cmd openssl-devel pkgconfig
             # Fedora/RHEL 9 manylinux_2_28 images (dnf)
             elif command -v dnf >/dev/null 2>&1; then
-              sudo dnf install -y \
+              dnf install -y \
                 perl-core perl-IPC-Cmd openssl-devel pkgconfig
             else
               echo "No known package manager found; skipping system-deps install"
