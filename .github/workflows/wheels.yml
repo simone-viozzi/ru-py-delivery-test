@@ -44,8 +44,22 @@ jobs:
           args: --release --out dist
           sccache: ${{ !startsWith(github.ref, 'refs/tags/') }}
           before-script-linux: |
-            apt install perl libssl-dev pkg-config -y || echo "not apt"
-            yum install perl-IPC-Cmd perl openssl-devel pkg-config -y || echo "not yum"
+            # Debian/Ubuntu runners or custom Ubuntu containers
+            if command -v apt-get >/dev/null 2>&1; then
+              sudo apt-get -qq update
+              sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+                perl libssl-dev pkg-config
+            # CentOS-based manylinux images (yum) ─ default path for maturin builds
+            elif command -v yum >/dev/null 2>&1; then
+              sudo yum install -y \
+                perl-core perl-IPC-Cmd openssl-devel pkgconfig
+            # Fedora/RHEL 9 manylinux_2_28 images (dnf)
+            elif command -v dnf >/dev/null 2>&1; then
+              sudo dnf install -y \
+                perl-core perl-IPC-Cmd openssl-devel pkgconfig
+            else
+              echo "No known package manager found; skipping system-deps install"
+            fi
           manylinux: auto
       - name: Upload wheels
         uses: actions/upload-artifact@v4
@@ -76,8 +90,22 @@ jobs:
           args: --release --out dist
           sccache: ${{ !startsWith(github.ref, 'refs/tags/') }}
           before-script-linux: |
-            apt install perl libssl-dev pkg-config -y || echo "not apt"
-            yum install -y perl-core perl-IPC-Cmd openssl-devel pkgconfig -y || echo "not yum"
+            # Debian/Ubuntu runners or custom Ubuntu containers
+            if command -v apt-get >/dev/null 2>&1; then
+              sudo apt-get -qq update
+              sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+                perl libssl-dev pkg-config
+            # CentOS-based manylinux images (yum) ─ default path for maturin builds
+            elif command -v yum >/dev/null 2>&1; then
+              sudo yum install -y \
+                perl-core perl-IPC-Cmd openssl-devel pkgconfig
+            # Fedora/RHEL 9 manylinux_2_28 images (dnf)
+            elif command -v dnf >/dev/null 2>&1; then
+              sudo dnf install -y \
+                perl-core perl-IPC-Cmd openssl-devel pkgconfig
+            else
+              echo "No known package manager found; skipping system-deps install"
+            fi
           manylinux: musllinux_1_2
       - name: Upload wheels
         uses: actions/upload-artifact@v4
