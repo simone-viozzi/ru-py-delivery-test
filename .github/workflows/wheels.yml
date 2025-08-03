@@ -77,7 +77,7 @@ jobs:
           sccache: ${{ !startsWith(github.ref, 'refs/tags/') }}
           before-script-linux: |
             apt install perl libssl-dev pkg-config -y || echo "not apt"
-            yum install perl-IPC-Cmd perl openssl-devel pkg-config -y || echo "not yum"
+            yum install -y perl-core perl-IPC-Cmd openssl-devel pkgconfig -y || echo "not yum"
           manylinux: musllinux_1_2
       - name: Upload wheels
         uses: actions/upload-artifact@v4
